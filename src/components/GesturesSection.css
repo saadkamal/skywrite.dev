@@ -1,0 +1,78 @@
+/*
+ * Author: Saad Kamal
+ * Styles for gesture reference cards.
+ */
+.gestures-section__header { margin-bottom: 48px; }
+.gestures-section__header .section-subtitle { margin: 0; }
+
+.gestures-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.gesture-card {
+  background: var(--bg-surface);
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  transition: background 0.2s;
+  cursor: default;
+}
+
+.gesture-card:hover { background: var(--bg-raised); }
+
+.gesture-card__state {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.gesture-card__emoji {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.gesture-card__name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.gesture-card__pose {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.gesture-card__desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.gesture-card__indicator {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gcolor);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.gesture-card:hover .gesture-card__indicator { opacity: 1; }
+
+@media (max-width: 900px) { .gestures-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .gestures-grid { grid-template-columns: 1fr; } .gesture-card { padding: 20px; } }

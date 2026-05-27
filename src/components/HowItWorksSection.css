@@ -1,0 +1,107 @@
+/*
+ * Author: Saad Kamal
+ * Styles for the architecture section and canvas layering diagram.
+ */
+.hiw-section__header { margin-bottom: 48px; }
+.hiw-section__header .section-subtitle { margin: 0; }
+
+.hiw-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 48px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--border);
+}
+
+.hiw-step {
+  background: var(--bg-surface);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.hiw-step:hover { background: var(--bg-raised); }
+.hiw-step__connector { display: none; }
+
+.hiw-step__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.hiw-step__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.hiw-step__desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Layer diagram */
+.hiw-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+.hiw-layer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.hiw-layer:last-child { border-bottom: none; }
+.hiw-layer:hover { background: var(--bg-raised); }
+
+.hiw-layer--ui      { background: rgba(0,212,255,0.03); }
+.hiw-layer--drawing { background: rgba(192,38,211,0.03); }
+.hiw-layer--camera  { background: rgba(34,197,94,0.02); }
+
+.hiw-layer__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hiw-layer__desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.hiw-layer__z {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+
+@media (max-width: 900px) {
+  .hiw-steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .hiw-steps { grid-template-columns: 1fr; }
+  .hiw-layer { flex-wrap: wrap; gap: 6px; }
+}

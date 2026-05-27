@@ -1,0 +1,148 @@
+/*
+ * Author: Saad Kamal
+ * Styles for the responsive sticky header.
+ */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s, border-color 0.2s;
+  border-bottom: 1px solid transparent;
+}
+
+.header--scrolled {
+  background: rgba(8,10,15,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--border);
+}
+
+.header__inner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.header__logo-icon {
+  font-size: 14px;
+  color: var(--accent-cyan);
+}
+
+.header__logo-text {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.header__logo-version {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-left: 2px;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-right: 28px;
+}
+
+.header__nav-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.header__nav-link:hover { color: var(--text-primary); }
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header__cta {
+  font-size: 13px;
+  padding: 8px 18px;
+}
+
+.header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.burger-line {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text-secondary);
+  border-radius: 1px;
+  transition: all 0.2s;
+}
+
+.header__mobile-menu {
+  position: absolute;
+  top: 56px;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(8,10,15,0.98);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0 16px;
+}
+
+.header__mobile-link {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: color 0.15s;
+}
+
+.header__mobile-link:hover { color: var(--text-primary); }
+
+.header__mobile-menu .btn-primary {
+  margin: 12px 24px 0;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .header { padding: 0 20px; }
+  .header__nav { display: none; }
+  .header__burger { display: flex; }
+  .header__cta { display: none; }
+}

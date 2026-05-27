@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "tryNow": "Try Now"
+  },
+  "hero": {
+    "title": "Draw in the air with your hands",
+    "subtitle": "No stylus. No touch. Just your webcam and MediaPipe.",
+    "cta": "Launch App",
+    "secondary": "See how it works"
+  },
+  "features": {
+    "label": "// capabilities",
+    "title": "What Skywrite can do",
+    "subtitle": "Hand tracking and drawing run in your browser. No install, no account, no backend.",
+    "items": [
+      { "title": "Zero-install", "desc": "Runs in the browser via WebAssembly. No app download, no plugin, no account required." },
+      { "title": "21-landmark tracking", "desc": "MediaPipe Hands detects 21 3D keypoints per hand at up to 30 fps, giving sub-centimetre cursor precision." },
+      { "title": "4 gesture states", "desc": "Idle, draw, move, and erase — each mapped to a distinct finger pose and stabilised against jitter." },
+      { "title": "Multi-layer canvas", "desc": "Three stacked canvases: camera feed, committed strokes, and live UI overlay — composited every frame." },
+      { "title": "Mouse / touch fallback", "desc": "No webcam? Draw with your mouse or finger on any touch screen. Full feature parity." },
+      { "title": "Export PNG", "desc": "Save your artwork as a full-resolution PNG. The camera feed, strokes, and background are all composited correctly." }
+    ]
+  },
+  "howItWorks": {
+    "label": "// architecture",
+    "title": "How it works",
+    "subtitle": "Four pipeline stages, with webcam frames processed client-side at 30 fps.",
+    "steps": [
+      { "num": "01", "title": "Capture", "desc": "WebRTC getUserMedia streams your webcam at 640×480 into a hidden <video> element." },
+      { "num": "02", "title": "Infer", "desc": "Each frame is sent to MediaPipe Hands (WASM + XNNPACK). The model returns 21 normalised (x,y,z) landmarks per hand." },
+      { "num": "03", "title": "Classify", "desc": "A lightweight rule-based classifier counts extended fingers to assign one of four gesture states, stabilised over N frames." },
+      { "num": "04", "title": "Render", "desc": "Three Canvas 2D layers are composited every rAF tick: camera feed (α=0.5), stroke layer, and UI/skeleton overlay." }
+    ]
+  },
+  "gestures": {
+    "label": "// gesture states",
+    "title": "Four gesture states",
+    "subtitle": "Each state maps to a distinct finger configuration, classified in real time.",
+    "items": [
+      { "emoji": "✊", "name": "Idle",  "pose": "Closed fist",              "desc": "No drawing. Reposition your hand freely without leaving marks." },
+      { "emoji": "☝️", "name": "Draw",  "pose": "Index finger extended",    "desc": "Extend your index finger. Hold ~0.5 s to arm, then move to paint." },
+      { "emoji": "✌️", "name": "Move",  "pose": "Index + middle extended",  "desc": "Peace sign. Drag to pan the entire canvas — all strokes shift together." },
+      { "emoji": "🖐️", "name": "Erase", "pose": "3+ fingers extended",      "desc": "Open palm. Swipe to erase — motion-gated so a still hand does nothing." }
+    ]
+  },
+  "faq": {
+    "label": "// faq",
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "q": "Which browsers are supported?",
+        "a": "Any browser that supports WebRTC (getUserMedia) and WebAssembly — Chrome 79+, Edge 79+, Firefox 75+, Safari 14.1+. Chrome or Edge on desktop gives the best performance due to their WASM SIMD and XNNPACK optimisations."
+      },
+      {
+        "q": "Does my video leave my device?",
+        "a": "Video frames are processed locally in your browser and are not uploaded to a backend. The app still downloads static JavaScript, WebAssembly, and model assets like any web app, but camera frames, landmarks, and drawings stay on your device unless you export or share them yourself."
+      },
+      {
+        "q": "Why does the camera appear black on first load?",
+        "a": "MediaPipe's WASM inference graph undergoes JIT compilation on the very first send(), which can take 200–800 ms. Skywrite keeps the loading screen up through a warm-up frame so you only ever see a live feed — but on very slow connections the model download itself (~8 MB) can add extra delay."
+      },
+      {
+        "q": "What is the arming delay before drawing starts?",
+        "a": "When you extend your index finger, a 14-frame (~0.5 s at 30 fps) arming window starts. A progress ring fills around the cursor. This prevents accidental strokes every time your hand passes through the draw pose while repositioning."
+      },
+      {
+        "q": "How does the erase gesture work exactly?",
+        "a": "Erase is motion-gated: it only activates when your wipe speed (a low-pass filtered palm velocity) exceeds a threshold that scales with your hand size. A stationary open palm does nothing. The erase radius also scales with the distance between your wrist and middle-finger MCP joint."
+      },
+      {
+        "q": "Can I use two hands at once?",
+        "a": "Yes. Skywrite runs MediaPipe with maxNumHands: 2. Each hand is tracked independently with its own gesture state, cursor, and active stroke. Both hands can draw simultaneously."
+      },
+      {
+        "q": "How is gesture classification implemented?",
+        "a": "A rule-based classifier compares each fingertip landmark against its corresponding PIP joint by distance from the wrist. A finger is treated as extended when its tip is farther from the wrist than the PIP joint. The resulting finger pattern maps to idle, draw, move, or erase, then a stabilizer smooths brief jitter."
+      },
+      {
+        "q": "What is the gesture stabiliser and why does it exist?",
+        "a": "Raw per-frame classification flickers between states as landmarks jitter. The stabiliser requires a candidate gesture to persist for N consecutive frames before it becomes the active state. Switching into draw requires 2 frames; exiting draw requires 4 frames (to avoid cutting strokes short on a brief mis-classification)."
+      },
+      {
+        "q": "Why does the canvas use three separate layers?",
+        "a": "Separating concerns lets each layer be cleared and redrawn independently every frame without affecting the others. The camera canvas holds the mirrored webcam feed (α=0.5). The drawing canvas holds committed strokes and the active path. The UI canvas holds the hand skeleton, cursor ring, arming arc, and HUD text. This avoids expensive full-canvas redraws and keeps compositing predictable."
+      },
+      {
+        "q": "How does the Move gesture pan the canvas?",
+        "a": "When move mode is entered, the cursor position is stored as a move anchor. Each subsequent frame, the delta between the current cursor and the anchor is applied to every point in every committed stroke (and any in-progress stroke). The anchor is then updated to the current cursor. This gives a direct 1:1 drag feel with no matrix transforms."
+      },
+      {
+        "q": "What model complexity does MediaPipe use and why?",
+        "a": "Skywrite uses modelComplexity: 0 (the lite model). The full model (complexity 1) is more accurate on partially occluded or unusual hand poses but runs at roughly half the frame rate on mid-range hardware. The lite model hits 25–30 fps on most modern laptops, which is sufficient for smooth drawing."
+      },
+      {
+        "q": "Why is the webcam feed mirrored?",
+        "a": "Mirroring makes the experience feel like looking in a mirror, which is the natural expectation when using your hand as a cursor. Without mirroring, moving your hand right moves the cursor left, which is deeply unintuitive. The mirror is applied via a CSS-pixel-space canvas transform (translate + scale(-1,1)) before drawing each frame."
+      },
+      {
+        "q": "How does Save PNG work?",
+        "a": "Saving bypasses the live DPR-scaled canvases entirely. An offscreen canvas is created at CSS pixel dimensions. The background is filled, then the video element is drawn directly (mirrored + cover-fitted), then all committed strokes are re-rendered using the same drawStroke function. This avoids the DPR double-scale issue that would otherwise produce a black or cropped export."
+      },
+      {
+        "q": "Does Skywrite work on mobile?",
+        "a": "Yes — the UI is fully responsive and pointer events work on touch screens. However, mobile browsers throttle WebAssembly more aggressively than desktop, so frame rates are typically 10–20 fps on mid-range phones. For best results use a desktop or laptop with a dedicated webcam."
+      },
+      {
+        "q": "What is the XNNPACK delegate and does Skywrite use it?",
+        "a": "XNNPACK is a high-performance neural network inference library that MediaPipe uses as a CPU delegate. It is enabled automatically in Chrome and Edge via their bundled WASM SIMD support. Skywrite does not configure it explicitly — MediaPipe selects the best available backend for the current browser automatically."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to draw with your hands?",
+    "subtitle": "No install. No account. Just open the app, allow camera access, and start drawing.",
+    "button": "Launch app →"
+  },
+  "footer": {
+    "copyright": "© 2026 Saad Kamal. Skywrite is built with MediaPipe, Canvas API, and React."
+  }
+}

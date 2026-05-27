@@ -1,0 +1,365 @@
+/*
+ * Author: Saad Kamal
+ * Styles for the interactive gesture tutorial.
+ */
+.gesture-tutorial {
+  min-height: 100vh;
+  background: #05060a;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.gesture-tutorial__bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.gesture-tutorial__header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: rgba(5,6,10,0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.gesture-tutorial__back,
+.gesture-tutorial__launch {
+  padding: 8px 16px;
+  background: rgba(16,18,28,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s, border-color 0.2s;
+}
+.gesture-tutorial__back:hover { color: #00f0ff; border-color: rgba(0,240,255,0.3); }
+.gesture-tutorial__launch {
+  color: #00f0ff;
+  border-color: rgba(0,240,255,0.25);
+}
+.gesture-tutorial__launch:hover { background: rgba(0,240,255,0.1); }
+.gesture-tutorial__title-group { text-align: center; }
+.gesture-tutorial__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0,240,255,0.7);
+  display: block;
+}
+.gesture-tutorial__title {
+  font-size: 18px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00f0ff, #ff00e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Progress */
+.gesture-tutorial__progress {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 20px 24px;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+.gesture-tutorial__progress-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(16,18,28,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  font-weight: 600;
+}
+.gesture-tutorial__progress-step:hover {
+  border-color: var(--step-color);
+  color: var(--step-color);
+}
+.gesture-tutorial__progress-step.active {
+  background: rgba(16,18,28,0.95);
+  border-color: var(--step-color);
+  color: var(--step-color);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--step-color) 20%, transparent);
+}
+.gesture-tutorial__progress-step.done {
+  border-color: rgba(57,255,20,0.4);
+  color: #39ff14;
+}
+.gesture-tutorial__progress-emoji { font-size: 18px; }
+.gesture-tutorial__progress-name { font-size: 13px; }
+.gesture-tutorial__progress-check {
+  font-size: 12px;
+  color: #39ff14;
+  font-weight: 700;
+}
+
+/* Main */
+.gesture-tutorial__main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+
+/* Visual */
+.gesture-tutorial__visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.gesture-tutorial__visual-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--step-color);
+  opacity: 0.06;
+  filter: blur(60px);
+  pointer-events: none;
+}
+.gesture-tutorial__hand-svg {
+  width: 260px;
+  height: 260px;
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--step-color) 30%, transparent));
+  transition: filter 0.3s;
+}
+.gesture-tutorial__visual-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* Info */
+.gesture-tutorial__info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.gesture-tutorial__info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border: 1px solid;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  width: fit-content;
+}
+.gesture-tutorial__info-heading {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.65;
+}
+.gesture-tutorial__tip {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255,215,0,0.05);
+  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 12px;
+}
+.gesture-tutorial__tip-icon { font-size: 20px; flex-shrink: 0; }
+.gesture-tutorial__tip p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+
+/* Practice */
+.gesture-tutorial__practice-area {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+.gesture-tutorial__practice-btn {
+  padding: 14px 28px;
+  background: color-mix(in srgb, var(--step-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--step-color) 40%, transparent);
+  border-radius: 12px;
+  color: var(--step-color);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.gesture-tutorial__practice-btn:hover {
+  background: color-mix(in srgb, var(--step-color) 20%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--step-color) 20%, transparent);
+}
+.gesture-tutorial__countdown {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.gesture-tutorial__countdown-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid var(--step-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--step-color);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--step-color) 30%, transparent);
+  animation: countdownPulse 1s ease-in-out infinite;
+}
+@keyframes countdownPulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.gesture-tutorial__countdown p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+}
+.gesture-tutorial__done-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(57,255,20,0.08);
+  border: 1px solid rgba(57,255,20,0.25);
+  border-radius: 12px;
+  color: #39ff14;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Nav */
+.gesture-tutorial__nav {
+  display: flex;
+  gap: 12px;
+}
+.gesture-tutorial__nav-btn {
+  flex: 1;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gesture-tutorial__nav-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+.gesture-tutorial__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.gesture-tutorial__nav-btn--primary {
+  background: color-mix(in srgb, var(--step-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--step-color) 40%, transparent);
+  color: var(--step-color);
+}
+.gesture-tutorial__nav-btn--primary:hover {
+  background: color-mix(in srgb, var(--step-color) 25%, transparent) !important;
+}
+.gesture-tutorial__nav-btn--launch {
+  background: linear-gradient(135deg, #00f0ff, #4d6dff);
+  border-color: transparent;
+  color: #05060a !important;
+  font-weight: 700;
+}
+
+/* Quick reference */
+.gesture-tutorial__reference {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px 64px;
+  position: relative;
+  z-index: 1;
+}
+.gesture-tutorial__reference-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+}
+.gesture-tutorial__reference-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.gesture-tutorial__ref-card {
+  padding: 20px 16px;
+  background: rgba(16,18,28,0.7);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+.gesture-tutorial__ref-card:hover,
+.gesture-tutorial__ref-card.active {
+  border-color: var(--step-color);
+  background: rgba(16,18,28,0.95);
+}
+.gesture-tutorial__ref-emoji { font-size: 28px; }
+.gesture-tutorial__ref-name { font-size: 14px; font-weight: 700; }
+.gesture-tutorial__ref-pose { font-size: 11px; color: rgba(255,255,255,0.4); text-align: center; }
+
+@media (max-width: 900px) {
+  .gesture-tutorial__main { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
+  .gesture-tutorial__visual { order: -1; }
+  .gesture-tutorial__reference-grid { grid-template-columns: repeat(2, 1fr); }
+  .gesture-tutorial__header { padding: 12px 16px; }
+}
+@media (max-width: 480px) {
+  .gesture-tutorial__reference-grid { grid-template-columns: repeat(2, 1fr); }
+  .gesture-tutorial__progress { gap: 6px; }
+  .gesture-tutorial__progress-step { padding: 8px 12px; }
+  .gesture-tutorial__progress-name { display: none; }
+}

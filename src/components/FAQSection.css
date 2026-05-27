@@ -1,0 +1,75 @@
+/*
+ * Author: Saad Kamal
+ * Styles for the expandable FAQ section.
+ */
+.faq-section__header { margin-bottom: 48px; }
+
+.faq-list {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.faq-item {
+  border-radius: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border) !important;
+  background: var(--bg-surface);
+  transition: background 0.15s;
+}
+
+.faq-item:last-child { border-bottom: none !important; }
+.faq-item--open { background: var(--bg-raised) !important; }
+
+.faq-item__question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+
+.faq-item__question:hover { color: var(--accent-cyan); }
+
+.faq-item__chevron {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.faq-item--open .faq-item__chevron { color: var(--accent-cyan); }
+
+.faq-item__answer {
+  padding: 0 22px 18px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.faq-item__answer p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  padding-top: 14px;
+}
+
+@media (max-width: 640px) {
+  .faq-item__question { padding: 14px 16px; font-size: 13px; }
+  .faq-item__answer { padding: 0 16px 14px; }
+}

@@ -1,0 +1,424 @@
+/*
+ * Author: Saad Kamal
+ * Styles for the camera calibration diagnostics page.
+ */
+/* ── Camera Calibration page ─────────────────────────────────────────────── */
+.cam-cal {
+  min-height: 100vh;
+  background: #05060a;
+  color: #e8eaf0;
+  font-family: 'Inter', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.cam-cal__bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.cam-cal__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(0,240,255,0.08);
+  z-index: 10;
+  min-height: 72px;
+}
+
+/* Back and forward links sit on the edges */
+.cam-cal__back,
+.cam-cal__nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.cam-cal__back:hover,
+.cam-cal__nav-link:hover {
+  color: #00f0ff;
+}
+
+/* Title group is absolutely centered so it never collides with the links */
+.cam-cal__title-group {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.cam-cal__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00f0ff;
+  opacity: 0.7;
+}
+
+.cam-cal__title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #e8eaf0;
+  margin: 0;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.cam-cal__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  padding: 28px;
+  flex: 1;
+  align-items: start;
+}
+
+/* ── Preview column ──────────────────────────────────────────────────────── */
+.cam-cal__preview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cam-cal__preview-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #0a0c14;
+  border: 1px solid rgba(0,240,255,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cam-cal__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.cam-cal__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cam-cal__preview-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: rgba(255,255,255,0.4);
+  font-size: 15px;
+}
+
+.cam-cal__preview-placeholder--error { color: #ff4d6b; }
+.cam-cal__preview-placeholder--warn  { color: #ffd700; }
+
+.cam-cal__preview-icon { font-size: 48px; }
+
+.cam-cal__preview-hint {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.cam-cal__overlay-toggle {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(10,12,20,0.8);
+  border: 1px solid rgba(0,240,255,0.2);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cam-cal__overlay-toggle:hover {
+  border-color: #00f0ff;
+  color: #00f0ff;
+}
+
+.cam-cal__hand-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(10,12,20,0.85);
+  border: 1px solid rgba(57,255,20,0.4);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #39ff14;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cam-cal__hand-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #39ff14;
+  box-shadow: 0 0 6px #39ff14;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.5; transform:scale(0.75); }
+}
+
+/* ── Adjustments ─────────────────────────────────────────────────────────── */
+.cam-cal__adjustments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.cam-cal__adj-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}
+
+.cam-cal__adj-label input[type=range] {
+  width: 100%;
+  accent-color: #00f0ff;
+}
+
+/* ── Checks column ───────────────────────────────────────────────────────── */
+.cam-cal__checks-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cam-cal__checks-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8eaf0;
+  margin: 0;
+}
+
+.cam-cal__checks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cam-cal__check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.cam-cal__check--pass    { border-color: rgba(57,255,20,0.2);  background: rgba(57,255,20,0.04); }
+.cam-cal__check--fail    { border-color: rgba(255,77,107,0.2); background: rgba(255,77,107,0.04); }
+.cam-cal__check--skip    { opacity: 0.5; }
+.cam-cal__check--checking{ border-color: rgba(0,240,255,0.2);  background: rgba(0,240,255,0.04); }
+
+.cam-cal__check-icon {
+  width: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.cam-cal__check--pass .cam-cal__check-icon { color: #39ff14; }
+.cam-cal__check--fail .cam-cal__check-icon { color: #ff4d6b; }
+.cam-cal__check--skip .cam-cal__check-icon { color: rgba(255,255,255,0.3); }
+
+.cam-cal__check-label { flex: 1; color: rgba(255,255,255,0.8); }
+
+.cam-cal__check-value {
+  font-size: 12px;
+  font-family: monospace;
+  color: #00f0ff;
+}
+
+.cam-cal__check-dot--pending {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+}
+
+.cam-cal__check-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(0,240,255,0.2);
+  border-top-color: #00f0ff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Tracking prompt ─────────────────────────────────────────────────────── */
+.cam-cal__tracking-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  border: 1px dashed rgba(0,240,255,0.2);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+}
+
+.cam-cal__tracking-hand {
+  font-size: 36px;
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,100% { transform: rotate(0deg); }
+  25%     { transform: rotate(15deg); }
+  75%     { transform: rotate(-10deg); }
+}
+
+/* ── Status banners ──────────────────────────────────────────────────────── */
+.cam-cal__status {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.cam-cal__status--success {
+  background: rgba(57,255,20,0.06);
+  border: 1px solid rgba(57,255,20,0.2);
+  color: #39ff14;
+}
+
+.cam-cal__status--warn {
+  background: rgba(255,215,0,0.06);
+  border: 1px solid rgba(255,215,0,0.2);
+  color: #ffd700;
+}
+
+.cam-cal__status strong { display: block; margin-bottom: 4px; }
+.cam-cal__status p { margin: 0; opacity: 0.75; font-size: 13px; color: inherit; }
+
+/* ── Action buttons ──────────────────────────────────────────────────────── */
+.cam-cal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cam-cal__btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #00f0ff22, #00f0ff11);
+  border: 1px solid rgba(0,240,255,0.35);
+  border-radius: 10px;
+  color: #00f0ff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.cam-cal__btn-primary:hover {
+  background: rgba(0,240,255,0.15);
+  border-color: #00f0ff;
+}
+
+.cam-cal__btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.cam-cal__btn-secondary:hover {
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.9);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cam-cal__body {
+    grid-template-columns: 1fr;
+  }
+  .cam-cal__checks-col {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .cam-cal__header {
+    padding: 14px 16px;
+    min-height: 60px;
+  }
+  .cam-cal__title {
+    font-size: 15px;
+  }
+  .cam-cal__label {
+    display: none;
+  }
+  .cam-cal__body {
+    padding: 16px;
+    gap: 16px;
+  }
+}
